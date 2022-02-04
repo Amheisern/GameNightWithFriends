@@ -81,6 +81,11 @@ namespace GameNightWithFriends.Controllers
                 return BadRequest();
             }
 
+            if (gameNight.MinimumPlayers < 2)
+            {
+                return BadRequest(new { Message = "You need at least 2 players!" });
+            }
+
             // Tell the database to consider everything in gameNight to be _updated_ values. When
             // the save happens the database will _replace_ the values in the database with the ones from gameNight
             _context.Entry(gameNight).State = EntityState.Modified;
@@ -124,6 +129,10 @@ namespace GameNightWithFriends.Controllers
         [HttpPost]
         public async Task<ActionResult<GameNight>> PostGameNight(GameNight gameNight)
         {
+            if (gameNight.MinimumPlayers < 2)
+            {
+                return BadRequest(new { Message = "You need at least 2 players!" });
+            }
             // Indicate to the database context we want to add this new record
             _context.GameNights.Add(gameNight);
             await _context.SaveChangesAsync();
