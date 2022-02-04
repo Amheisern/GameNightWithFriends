@@ -159,6 +159,10 @@ namespace GameNightWithFriends.Controllers
                 return NotFound();
             }
 
+            if (gameNight.When < DateTime.Now)
+            {
+                return BadRequest();
+            }
             // Tell the database we want to remove this record
             _context.GameNights.Remove(gameNight);
 
